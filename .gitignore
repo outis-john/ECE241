@@ -1,0 +1,13 @@
+# Quartus generated / build folders
+db/
+incremental_db/
+output_files/
+greybox_tmp/
+simulation/
+*.bak
+*.qws
+*_pin_model_dump.txt
+# ModelSim
+work/
+transcript
+*.wlf
