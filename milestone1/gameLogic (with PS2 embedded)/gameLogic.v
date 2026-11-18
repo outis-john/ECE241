@@ -224,24 +224,6 @@ module gameTick (clear, CLOCK_50, T);
 	//assign T = (Q == 2)?1'b1:1'b0;		
 endmodule
 
-PS2_output keyHeldValues (
-		.CLOCK_50 (CLOCK_50),
-		.KEY (KEY),
-		.PS2_CLK (PS2_CLK),
-		.PS2_DAT (PS2_DAT),
-		.LEDR (LEDR), 
-		.w_held (w_held), 
-		.a_held (a_held), 
-		.s_held (s_held), 
-		.d_held (d_held),
-		.up_held (up_held), 
-		.left_held (left_held), 
-		.down_held (down_held), 
-		.right_held (right_held),
-		.lshift_held (lshift_held), 
-		.rshift_held (rshift_held)
-	);
-
 
 ////HOW TO instantiate gameLogic.v
 	
