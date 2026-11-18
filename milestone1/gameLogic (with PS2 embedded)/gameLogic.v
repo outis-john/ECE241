@@ -130,16 +130,21 @@ module gameLogic(
 			curPlayer <= 1'b0;
 			next_x <= P1_SPAWN_X;
 			next_y <= P1_SPAWN_Y;
+			p1_facing <= RIGHT;
+			p2_facing <= LEFT; 
 		end
 		else begin
 			y_Q <= Y_D; // flipflop
 			
 			// outputs assignments (can only change on clock)
 			case (y_Q)
-			IDLE: curPlayer = 1'b0;
+			IDLE: curPlayer <= 1'b0;
 			NEXT: begin
 				// update facing and next position registers
 				if (curPlayer == 1'b0) begin
+					next_x <= p1_x;
+					next_y <= p1_y;
+			
 					if (w_held) begin
 						next_y <= p1_y - 16;
 						p1_facing <= UP;
@@ -161,6 +166,9 @@ module gameLogic(
 					end
 				end
 				else if (curPlayer == 1'b1) begin 
+					next_x <= p2_x;
+					next_y <= p2_y;
+				
 					if (up_held) begin
 						next_y <= p2_y - 16;
 						p2_facing <= UP;
@@ -225,15 +233,16 @@ module gameTick (clear, CLOCK_50, T);
 endmodule
 
 
-////HOW TO instantiate gameLogic.v
 
+
+////HOW TO instantiate gameLogic.v
+	
+// include (CLOCK_50, KEY, LEDR, PS2_CLK, PS2_DAT in header)
 
 // .v files to include:
 // PS2_output.v, gameLogic.v, PS2_Controller.v, PS2_decoder.v
 // Altera_UP_PS2_Data_In.v, Altera_UP_PS2_Command_Out.v
 // maze_rom.v, maze.mif
-	
-// include (CLOCK_50, KEY, LEDR, PS2_CLK, PS2_DAT in header)	
 /*
 	input CLOCK_50;
 	input [3:0] KEY;
