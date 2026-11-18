@@ -226,6 +226,12 @@ endmodule
 
 
 ////HOW TO instantiate gameLogic.v
+
+
+// .v files to include:
+// PS2_output.v, gameLogic.v, PS2_Controller.v, PS2_decoder.v
+// Altera_UP_PS2_Data_In.v, Altera_UP_PS2_Command_Out.v
+// maze_rom.v, maze.mif
 	
 // include (CLOCK_50, KEY, LEDR, PS2_CLK, PS2_DAT in header)	
 /*
