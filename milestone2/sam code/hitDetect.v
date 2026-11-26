@@ -54,23 +54,20 @@ module hitDetect(
 	assign b1_hit = b1_hit_p1t[0] | b1_hit_p1t[1] | b1_hit_p2t[0] | b1_hit_p2t[1];
 	assign b2_hit = b2_hit_p1t[0] | b2_hit_p1t[1] | b2_hit_p2t[0] | b2_hit_p2t[1];
 	 
-	integer i;
-	
+	 
 	always @ (*) begin
-		for (i = 0; i < 2; i = i + 1) begin	
+		b1_hit_p1t[0] = b1_active && p1_t_alive[0] && (p1_tX[8:0] == b1_x) && (p1_tY[7:0] == b1_y);
+		b1_hit_p1t[1] = b1_active && p1_t_alive[1] && (p1_tX[17:9] == b1_x) && (p1_tY[15:8] == b1_y);
 		
-			b1_hit_p1t[i] = b1_active && p1_t_alive[i] && 
-								  (p1_tX[i*9+:9] == b1_x) && (p1_tY[i*8+:8] == b1_y);
+	
+		b1_hit_p2t[0] = b1_active && p2_t_alive[0] && (p2_tX[8:0] == b1_x) && (p2_tY[7:0] == b1_y);
+		b1_hit_p2t[1] = b1_active && p2_t_alive[1] && (p2_tX[17:9] == b1_x) && (p2_tY[15:8] == b1_y);
+				  
+		b2_hit_p1t[0] = b2_active && p1_t_alive[0] && (p1_tX[8:0] == b2_x) && (p1_tY[7:0] == b2_y);
+		b2_hit_p1t[1] = b2_active && p1_t_alive[1] && (p1_tX[17:9] == b2_x) && (p1_tY[15:8] == b2_y);
 								  
-			b1_hit_p2t[i] = b1_active && p2_t_alive[i] && 
-								  (p2_tX[i*9+:9] == b1_x) && (p2_tY[i*8+:8] == b1_y);
-								  
-			b2_hit_p1t[i] = b2_active && p1_t_alive[i] && 
-								  (p1_tX[i*9+:9] == b2_x) && (p1_tY[i*8+:8] == b2_y);
-								  
-			b2_hit_p2t[i] = b2_active && p2_t_alive[i] && 
-								  (p2_tX[i*9+:9] == b2_x) && (p2_tY[i*8+:8] == b2_y);
-		end 
+		b2_hit_p2t[0] = b2_active && p2_t_alive[0] && (p2_tX[8:0] == b2_x) && (p2_tY[7:0] == b2_y);
+		b2_hit_p2t[1] = b2_active && p2_t_alive[1] && (p2_tX[17:9] == b2_x) && (p2_tY[15:8] == b2_y);
 	end
 	
 	always @ (posedge CLOCK_50) begin
@@ -81,9 +78,12 @@ module hitDetect(
 			p2_score <= 3'd5;
 		end
 		else begin
-			// kill targets, change score
-			p1_t_alive <= p1_t_alive & ~(b1_hit_p1t | b2_hit_p1t);
-			p2_t_alive <= p2_t_alive & ~(b1_hit_p2t | b2_hit_p2t);
+			// update target alive flag	
+			p1_t_alive[0] <= p1_t_alive[0] & ~(b1_hit_p1t[0] | b2_hit_p1t[0]);
+			p1_t_alive[1] <= p1_t_alive[1] & ~(b1_hit_p1t[1] | b2_hit_p1t[1]);
+			
+			p2_t_alive[0] <= p2_t_alive[0] & ~(b1_hit_p2t[0] | b2_hit_p2t[0]);
+			p2_t_alive[1] <= p2_t_alive[1] & ~(b1_hit_p2t[1] | b2_hit_p2t[1]);
 			
 			// player 1 score
 			if (b1_hit_p1t[0] | b1_hit_p1t[1]) begin
